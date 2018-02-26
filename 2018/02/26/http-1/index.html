@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTP协议系列（一） | Poetry&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="HTTP," />
+  
+
+  <meta name="description" content="一、基础概念1.1 Web基础 HTTP（HyperText Transfer Protocol，超为本传输协议） WWW（Word Wide Web）的三种技术：HTML、HTTP、URL  1.2 URL URI（Uniform Resource Indentifier，统一资源标识符），URL（Uniform Resource Locator，统一资源定位符），URN（Uniform Res">
+<meta name="keywords" content="HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP协议系列（一）">
+<meta property="og:url" content="http://blog.poetries.top/2018/02/26/http-1/index.html">
+<meta property="og:site_name" content="Poetry&#39;s Blog">
+<meta property="og:description" content="一、基础概念1.1 Web基础 HTTP（HyperText Transfer Protocol，超为本传输协议） WWW（Word Wide Web）的三种技术：HTML、HTTP、URL  1.2 URL URI（Uniform Resource Indentifier，统一资源标识符），URL（Uniform Resource Locator，统一资源定位符），URN（Uniform Res">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/4102b7d0-39b9-48d8-82ae-ac4addb7ebfb.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/9dbb5fc2-936b-4c6d-b3a7-9617aae45080.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/c634b5ed-a14b-4302-b40e-3ee387dd3c8a.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/ca711108-e937-4d7d-99aa-61b325c61f1a.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/d8355d56-aa2b-4452-8001-8475cc095af1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/b1b4cf7d-c54a-4ff1-9741-cd2eea331123.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/ff17c103-750a-4bb8-9afa-576327023af9.png?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/c73a0b78-5f46-4d2d-a009-dab2a999b5d8.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/6943e2af-5a70-4004-8bee-b33d60f39da3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/decb0936-e83c-4a55-840a-fe8aa101ac61.png?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/c07035c3-a9ba-4508-8e3c-d8ae4c6ee9ee.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/81375888-6be1-476f-9521-42eea3e3154f.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/64b95403-d976-421a-8b45-bac89c0b5185.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/110b1a9b-87cd-45c3-a21d-824623715b33.jpg?raw=true">
+<meta property="og:updated_time" content="2018-02-26T15:50:35.311Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP协议系列（一）">
+<meta name="twitter:description" content="一、基础概念1.1 Web基础 HTTP（HyperText Transfer Protocol，超为本传输协议） WWW（Word Wide Web）的三种技术：HTML、HTTP、URL  1.2 URL URI（Uniform Resource Indentifier，统一资源标识符），URL（Uniform Resource Locator，统一资源定位符），URN（Uniform Res">
+<meta name="twitter:image" content="https://github.com/CyC2018/InterviewNotes/blob/master/pics/4102b7d0-39b9-48d8-82ae-ac4addb7ebfb.jpg?raw=true">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=d671a41f" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  <!-- 加载gitment的css和js文件 -->
+<link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录<i class="iconfont toc-title" style="display:inline-block;color:#87998d;width:20px;height:20px;">&#xf004b;</i></strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、基础概念"><span class="toc-text">一、基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Web基础"><span class="toc-text">1.1 Web基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-URL"><span class="toc-text">1.2 URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-请求和响应报文"><span class="toc-text">1.3 请求和响应报文</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、HTTP-方法"><span class="toc-text">二、HTTP 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-GET：获取资源"><span class="toc-text">2.1 GET：获取资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-POST：传输实体主体"><span class="toc-text">2.2 POST：传输实体主体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-HEAD：获取报文首部"><span class="toc-text">2.3 HEAD：获取报文首部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-PUT：上传文件"><span class="toc-text">2.4 PUT：上传文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-DELETE：删除文件"><span class="toc-text">2.5 DELETE：删除文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-OPTIONS：查询支持的方法"><span class="toc-text">2.6 OPTIONS：查询支持的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-TRACE：追踪路径"><span class="toc-text">2.7 TRACE：追踪路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-CONNECT：要求用隧道协议连接代理"><span class="toc-text">2.8 CONNECT：要求用隧道协议连接代理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、HTTP-状态码"><span class="toc-text">三、HTTP 状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-2XX-成功"><span class="toc-text">3.1 2XX 成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-3XX-重定向"><span class="toc-text">3.2 3XX 重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-4XX-客户端错误"><span class="toc-text">3.3 4XX 客户端错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-5XX-服务器错误"><span class="toc-text">3.4 5XX 服务器错误</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、HTTP首部"><span class="toc-text">四、HTTP首部</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-通用首部字段"><span class="toc-text">4.1 通用首部字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-请求首部字段"><span class="toc-text">4.2 请求首部字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-响应首部字段"><span class="toc-text">4.3 响应首部字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-实体首部字段"><span class="toc-text">4.4 实体首部字段</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、具体应用"><span class="toc-text">五、具体应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-Cookie"><span class="toc-text">5.1 Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-缓存"><span class="toc-text">5.2 缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-持久连接"><span class="toc-text">5.3 持久连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-编码"><span class="toc-text">5.4 编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-分块传输"><span class="toc-text">5.5 分块传输</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-多部分对象集合"><span class="toc-text">5.6 多部分对象集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-范围请求"><span class="toc-text">5.7 范围请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-8-内容协商"><span class="toc-text">5.8 内容协商</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-9-虚拟主机"><span class="toc-text">5.9 虚拟主机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-10-通信数据转发"><span class="toc-text">5.10 通信数据转发</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#六、HTTPs"><span class="toc-text">六、HTTPs</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-加密"><span class="toc-text">6.1 加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-认证"><span class="toc-text">6.2 认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-完整性"><span class="toc-text">6.3 完整性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#七、HTTP-1-0-与-HTTP-1-1-的区别"><span class="toc-text">七、HTTP/1.0 与 HTTP/1.1 的区别</span></a></li></ol>
+  </div>
+  <i class="iconfont" id="toc-eye" style="display:inline-block;color:#b36619;position:absolute;top:72px;right:233px;cursor:pointer;
+    font-size: 24px;">&#xe61c;</i>
+  <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+  <script>
+	$("#toc-eye").click(function(){
+	
+			$("#toc.toc-article").toggle(1000);
+			$(this).css({
+				"right":"265px"
+			});
+		
+	});
+  </script>
+
+
+
+<div class="content content-post CENTER">
+   <canvas id="evanyou" width="1302" height="678" style="position: fixed;width: 100%;height: 100%;top: 0;left:0;z-index:-1;"></canvas>
+<article id="post-http-1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">HTTP协议系列（一）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.26</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Poetry</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Back-end/">Back-end</a>
+  </span>
+
+
+
+      
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="一、基础概念"><a href="#一、基础概念" class="headerlink" title="一、基础概念"></a>一、基础概念</h1><h2 id="1-1-Web基础"><a href="#1-1-Web基础" class="headerlink" title="1.1 Web基础"></a>1.1 Web基础</h2><ul>
+<li><code>HTTP</code>（<code>HyperText Transfer Protocol</code>，超为本传输协议）</li>
+<li><code>WWW（Word Wide Web）</code>的三种技术：<code>HTML</code>、<code>HTTP</code>、<code>URL</code></li>
+</ul>
+<h2 id="1-2-URL"><a href="#1-2-URL" class="headerlink" title="1.2 URL"></a>1.2 URL</h2><blockquote>
+<p><code>URI</code>（<code>Uniform Resource Indentifier</code>，统一资源标识符），<code>URL</code>（Uniform Resource Locator，统一资源定位符），<code>URN</code>（<code>Uniform Resource Name</code>，统一资源名称），例如 <code>urn:isbn:0-486-27557-4</code> 。<code>URI</code> 包含 <code>URL</code> 和 <code>URN</code>，目前 <code>WEB</code> 只有 <code>URL</code> 比较流行，所以见到的基本都是 <code>URL</code>。</p>
+</blockquote>
+<ul>
+<li><code>URL</code>格式</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/4102b7d0-39b9-48d8-82ae-ac4addb7ebfb.jpg?raw=true" alt=""></p>
+<h2 id="1-3-请求和响应报文"><a href="#1-3-请求和响应报文" class="headerlink" title="1.3 请求和响应报文"></a>1.3 请求和响应报文</h2><p><strong>请求报文</strong></p>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/9dbb5fc2-936b-4c6d-b3a7-9617aae45080.jpg?raw=true" alt=""></p>
+<p><strong>响应报文</strong></p>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/c634b5ed-a14b-4302-b40e-3ee387dd3c8a.jpg?raw=true" alt=""></p>
+<h1 id="二、HTTP-方法"><a href="#二、HTTP-方法" class="headerlink" title="二、HTTP 方法"></a>二、HTTP 方法</h1><blockquote>
+<p>客户端发送的请求报文第一行为请求行，包含了方法字段。</p>
+</blockquote>
+<h2 id="2-1-GET：获取资源"><a href="#2-1-GET：获取资源" class="headerlink" title="2.1 GET：获取资源"></a>2.1 GET：获取资源</h2><h2 id="2-2-POST：传输实体主体"><a href="#2-2-POST：传输实体主体" class="headerlink" title="2.2 POST：传输实体主体"></a>2.2 POST：传输实体主体</h2><ul>
+<li><code>POST</code> 主要目的不是获取资源，而是传输实体主体数据。</li>
+<li><code>GET</code> 和 <code>POST</code> 的请求都能使用额外的参数，但是 GET 的参数是以查询字符串出现在 <code>URL</code>中，而<code>POST</code> 的参数存储在实体主体部分。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /test/demo_form.asp?name1=value1&amp;name2=value2 HTTP/1.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">POST /test/demo_form.asp HTTP/1.1</span><br><span class="line">Host: w3schools.com</span><br><span class="line">name1=value1&amp;name2=value2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>GET</code> 的传参方式相比于 <code>POST</code>安全性较差，因为 <code>GET</code> 传的参数在 <code>URL</code> 是可见的，可能会泄露私密信息。并且 <code>GET</code> 只支持 <code>ASCII</code> 字符，如果参数为中文则可能会出现乱码，而 <code>POST</code>支持标准字符集。</p>
+</blockquote>
+<h2 id="2-3-HEAD：获取报文首部"><a href="#2-3-HEAD：获取报文首部" class="headerlink" title="2.3 HEAD：获取报文首部"></a>2.3 HEAD：获取报文首部</h2><ul>
+<li>和 <code>GET</code>方法一样，但是不返回报文实体主体部分。</li>
+<li>主要用于确认 URL 的有效性以及资源更新的日期时间等。</li>
+</ul>
+<h2 id="2-4-PUT：上传文件"><a href="#2-4-PUT：上传文件" class="headerlink" title="2.4 PUT：上传文件"></a>2.4 PUT：上传文件</h2><ul>
+<li>由于自身不带验证机制，任何人都可以上传文件，因此存在安全性问题，一般 WEB 网站不使用该方法。</li>
+</ul>
+<h2 id="2-5-DELETE：删除文件"><a href="#2-5-DELETE：删除文件" class="headerlink" title="2.5 DELETE：删除文件"></a>2.5 DELETE：删除文件</h2><ul>
+<li>与 PUT 功能相反，并且同样不带验证机制。</li>
+</ul>
+<h2 id="2-6-OPTIONS：查询支持的方法"><a href="#2-6-OPTIONS：查询支持的方法" class="headerlink" title="2.6 OPTIONS：查询支持的方法"></a>2.6 OPTIONS：查询支持的方法</h2><ul>
+<li>查询指定的 <code>URL</code> 能够支持的方法。</li>
+<li>会返回 <code>Allow: GET</code>,<code>POST</code>, <code>HEAD</code>, <code>OPTIONS</code> 这样的内容。</li>
+</ul>
+<h2 id="2-7-TRACE：追踪路径"><a href="#2-7-TRACE：追踪路径" class="headerlink" title="2.7 TRACE：追踪路径"></a>2.7 <code>TRACE</code>：追踪路径</h2><ul>
+<li>服务器会将通信路径返回给客户端。</li>
+<li>发送请求时，在 <code>Max-Forwards</code> 首部字段中填入数值，每经过一个服务器就会减 <code>1</code>，当数值为 <code>0</code> 时就停止传输。</li>
+<li>TRACE 一般不会使用，并且它容易受到 <code>XST</code> 攻击（<code>Cross-Site Tracing</code>，跨站追踪），因此更不会去使用它。</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/ca711108-e937-4d7d-99aa-61b325c61f1a.jpg?raw=true" alt=""></p>
+<h2 id="2-8-CONNECT：要求用隧道协议连接代理"><a href="#2-8-CONNECT：要求用隧道协议连接代理" class="headerlink" title="2.8 CONNECT：要求用隧道协议连接代理"></a>2.8 CONNECT：要求用隧道协议连接代理</h2><ul>
+<li>用隧道协议进行 <code>TCP</code> 通信。</li>
+<li>主要使用 <code>SSL</code>（<code>Secure Sokets Layer</code>，安全套接字）和 <code>TLS</code>（<code>Transport Layer Security</code>，传输层安全）协议把通信内容加密后经网络隧道传输。</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/d8355d56-aa2b-4452-8001-8475cc095af1.jpg?raw=true" alt=""></p>
+<h1 id="三、HTTP-状态码"><a href="#三、HTTP-状态码" class="headerlink" title="三、HTTP 状态码"></a>三、HTTP 状态码</h1><ul>
+<li>服务器返回的响应报文中第一行为状态行，包含了状态码以及原因短语，来告知客户端请求的结果。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>类别</th>
+<th>原因短语</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1XX</code></td>
+<td><code>Informational</code>（信息性状态码）</td>
+<td>接收的请求正在处理</td>
+</tr>
+<tr>
+<td><code>2XX</code></td>
+<td><code>Success</code>（成功状态码）</td>
+<td>请求正常处理完毕</td>
+</tr>
+<tr>
+<td><code>3XX</code></td>
+<td><code>Redirection</code>（重定向状态码）</td>
+<td>需要进行附加操作以完成请求</td>
+</tr>
+<tr>
+<td><code>4XX</code></td>
+<td><code>Client Error</code>（客户端错误状态码）</td>
+<td>服务器无法处理请求</td>
+</tr>
+<tr>
+<td><code>5XX</code></td>
+<td><code>Server Error</code>（服务器错误状态码）</td>
+<td>服务器处理请求出错</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-1-2XX-成功"><a href="#3-1-2XX-成功" class="headerlink" title="3.1 2XX 成功"></a>3.1 2XX 成功</h2><p><strong>200 OK</strong></p>
+<p><strong>204 No Content</strong>：请求已经成功处理，但是返回的响应报文不包含实体的主体部分。一般在只需要从客户端往服务器发送信息，而不需要返回数据时使用。</p>
+<p><strong>206 Partial Content</strong></p>
+<h2 id="3-2-3XX-重定向"><a href="#3-2-3XX-重定向" class="headerlink" title="3.2 3XX 重定向"></a>3.2 3XX 重定向</h2><p><strong>301 Moved Permanently</strong>：永久性重定向</p>
+<p><strong>302 Found</strong>：临时性重定向</p>
+<p><strong>303 See Other</strong></p>
+<p>注：虽然 HTTP 协议规定 301、302 状态下重定向时不允许把 POST 方法改成 GET 方法，但是大多数浏览器都会把 301、302 和 303 状态下的重定向把 POST 方法改成 GET 方法。</p>
+<p><strong>304 Not Modified</strong>：如果请求报文首部包含一些条件，例如：If-Match，If-ModifiedSince，If-None-Match，If-Range，If-Unmodified-Since，但是不满足条件，则服务器会返回 304 状态码。</p>
+<p><strong>307 Temporary Redirect</strong>：临时重定向，与 302 的含义类似，但是 307 要求浏览器不会把重定向请求的 POST 方法改成 GET 方法。</p>
+<h2 id="3-3-4XX-客户端错误"><a href="#3-3-4XX-客户端错误" class="headerlink" title="3.3 4XX 客户端错误"></a>3.3 4XX 客户端错误</h2><p><strong>400 Bad Request</strong>：请求报文中存在语法错误</p>
+<p><strong>401 Unauthorized</strong>：该状态码表示发送的请求需要有通过 HTTP 认证（BASIC 认证、DIGEST 认证）的认证信息。如果之前已进行过一次请求，则表示用户认证失败。</p>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/b1b4cf7d-c54a-4ff1-9741-cd2eea331123.jpg?raw=true" alt=""></p>
+<p><strong>403 Forbidden</strong>：请求被拒绝，服务器端没有必要给出拒绝的详细理由。</p>
+<p><strong>404 Not Found</strong></p>
+<h2 id="3-4-5XX-服务器错误"><a href="#3-4-5XX-服务器错误" class="headerlink" title="3.4 5XX 服务器错误"></a>3.4 5XX 服务器错误</h2><p><strong>500 Internal Server Error</strong>：服务器正在执行请求时发生错误</p>
+<p><strong>503 Service Unavilable</strong>：该状态码表明服务器暂时处于超负载或正在进行停机维护，现在无法处理请求。</p>
+<h1 id="四、HTTP首部"><a href="#四、HTTP首部" class="headerlink" title="四、HTTP首部"></a>四、HTTP首部</h1><p>HTTP 报文包含了首部和主体两部分。有 4 种类型的首部字段：通用首部字段、请求首部字段、响应首部字段和实体首部字段。各种首部字段及其含义如下（不需要全记，仅供查阅）：</p>
+<h2 id="4-1-通用首部字段"><a href="#4-1-通用首部字段" class="headerlink" title="4.1 通用首部字段"></a>4.1 通用首部字段</h2><table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cache-Control</code></td>
+<td>控制缓存的行为</td>
+</tr>
+<tr>
+<td><code>Connection</code></td>
+<td>逐跳首部、 连接的管理</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>创建报文的日期时间</td>
+</tr>
+<tr>
+<td><code>Pragma</code></td>
+<td>报文指令</td>
+</tr>
+<tr>
+<td><code>Trailer</code></td>
+<td>报文末端的首部一览</td>
+</tr>
+<tr>
+<td><code>Transfer-Encoding</code></td>
+<td>指定报文主体的传输编码方式</td>
+</tr>
+<tr>
+<td><code>Upgrade</code></td>
+<td>升级为其他协议</td>
+</tr>
+<tr>
+<td><code>Via</code></td>
+<td>代理服务器的相关信息</td>
+</tr>
+<tr>
+<td><code>Warning</code></td>
+<td>错误通知</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-2-请求首部字段"><a href="#4-2-请求首部字段" class="headerlink" title="4.2 请求首部字段"></a>4.2 请求首部字段</h2><table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Accept</code></td>
+<td>用户代理可处理的媒体类型</td>
+</tr>
+<tr>
+<td><code>Accept-Charset</code></td>
+<td>优先的字符集</td>
+</tr>
+<tr>
+<td><code>Accept-Encoding</code></td>
+<td>优先的内容编码</td>
+</tr>
+<tr>
+<td><code>Accept-Language</code></td>
+<td>优先的语言（自然语言）</td>
+</tr>
+<tr>
+<td><code>Authorization</code></td>
+<td>Web认证信息</td>
+</tr>
+<tr>
+<td><code>Expect</code></td>
+<td>期待服务器的特定行为</td>
+</tr>
+<tr>
+<td><code>From</code></td>
+<td>用户的电子邮箱地址</td>
+</tr>
+<tr>
+<td><code>Host</code></td>
+<td>请求资源所在服务器</td>
+</tr>
+<tr>
+<td><code>If-Match</code></td>
+<td>比较实体标记（<code>ETag</code>）</td>
+</tr>
+<tr>
+<td><code>If-Modified-Since</code></td>
+<td>比较资源的更新时间</td>
+</tr>
+<tr>
+<td><code>If-None-Match</code></td>
+<td>比较实体标记（与 <code>If-Match</code> 相反）</td>
+</tr>
+<tr>
+<td><code>If-Range</code></td>
+<td>资源未更新时发送实体 <code>Byte</code> 的范围请求</td>
+</tr>
+<tr>
+<td><code>If-Unmodified-Since</code></td>
+<td>比较资源的更新时间（与<code>If-Modified-Since</code>相反）</td>
+</tr>
+<tr>
+<td><code>Max-Forwards</code></td>
+<td>最大传输逐跳数</td>
+</tr>
+<tr>
+<td><code>Proxy-Authorization</code></td>
+<td>代理服务器要求客户端的认证信息</td>
+</tr>
+<tr>
+<td><code>Range</code></td>
+<td>实体的字节范围请求</td>
+</tr>
+<tr>
+<td><code>Referer</code></td>
+<td>对请求中 <code>URI</code> 的原始获取方</td>
+</tr>
+<tr>
+<td><code>TE</code></td>
+<td>传输编码的优先级</td>
+</tr>
+<tr>
+<td><code>User-Agent</code></td>
+<td><code>HTTP</code> 客户端程序的信息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-3-响应首部字段"><a href="#4-3-响应首部字段" class="headerlink" title="4.3 响应首部字段"></a>4.3 响应首部字段</h2><table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Accept-Ranges</code></td>
+<td>是否接受字节范围请求</td>
+</tr>
+<tr>
+<td><code>Age</code></td>
+<td>推算资源创建经过时间</td>
+</tr>
+<tr>
+<td><code>ETag</code></td>
+<td>资源的匹配信息</td>
+</tr>
+<tr>
+<td><code>Location</code></td>
+<td>令客户端重定向至指定URI</td>
+</tr>
+<tr>
+<td><code>Proxy-Authenticate</code></td>
+<td>代理服务器对客户端的认证信息</td>
+</tr>
+<tr>
+<td><code>Retry-After</code></td>
+<td>对再次发起请求的时机要求</td>
+</tr>
+<tr>
+<td><code>Server</code></td>
+<td>HTTP服务器的安装信息</td>
+</tr>
+<tr>
+<td><code>Vary</code></td>
+<td>代理服务器缓存的管理信息</td>
+</tr>
+<tr>
+<td><code>WWW-Authenticate</code></td>
+<td>服务器对客户端的认证信息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-4-实体首部字段"><a href="#4-4-实体首部字段" class="headerlink" title="4.4 实体首部字段"></a>4.4 实体首部字段</h2><table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Allow</code></td>
+<td>资源可支持的<code>HTTP</code>方法</td>
+</tr>
+<tr>
+<td><code>Content-Encoding</code></td>
+<td>实体主体适用的编码方式</td>
+</tr>
+<tr>
+<td><code>Content-Language</code></td>
+<td>实体主体的自然语言</td>
+</tr>
+<tr>
+<td><code>Content-Length</code></td>
+<td>实体主体的大小（单位： 字节）</td>
+</tr>
+<tr>
+<td><code>Content-Location</code></td>
+<td>替代对应资源的URI</td>
+</tr>
+<tr>
+<td><code>Content-MD5</code></td>
+<td>实体主体的报文摘要</td>
+</tr>
+<tr>
+<td><code>Content-Range</code></td>
+<td>实体主体的位置范围</td>
+</tr>
+<tr>
+<td><code>Content-Type</code></td>
+<td>实体主体的媒体类型</td>
+</tr>
+<tr>
+<td><code>Expires</code></td>
+<td>实体主体过期的日期时间</td>
+</tr>
+<tr>
+<td><code>Last-Modified</code></td>
+<td>资源的最后修改日期时间</td>
+</tr>
+</tbody>
+</table>
+<h1 id="五、具体应用"><a href="#五、具体应用" class="headerlink" title="五、具体应用"></a>五、具体应用</h1><h2 id="5-1-Cookie"><a href="#5-1-Cookie" class="headerlink" title="5.1 Cookie"></a>5.1 Cookie</h2><ul>
+<li><code>HTTP</code> 协议是无状态的，主要是为了让 <code>HTTP</code> 协议尽可能简单，使得它能够处理大量事务。<code>HTTP/1.1</code> 引入 <code>Cookie</code> 来保存状态信息</li>
+<li>服务器会发送的响应报文包含 <code>Set-Cookie</code> 字段，客户端得到该相应后把 <code>Cookie</code> 内容保存到浏览器中。下次再发送请求时，从浏览器中读出 <code>Cookie</code> 值，在请求报文中包含<code>Cookie</code>字段，这样服务器就知道客户端的状态信息了。<code>Cookie</code> 状态信息保存在客户端浏览器中，而不是服务器上</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/ff17c103-750a-4bb8-9afa-576327023af9.png?raw=true" alt=""></p>
+<p><strong>Set-Cookie 字段有以下属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NAME=VALUE</code></td>
+<td>赋予 <code>Cookie</code> 的名称和其值（必需项）</td>
+</tr>
+<tr>
+<td><code>expires=DATE</code></td>
+<td><code>Cookie</code> 的有效期（若不明确指定则默认为浏览器关闭前为止）</td>
+</tr>
+<tr>
+<td><code>path=PATH</code></td>
+<td>将服务器上的文件目录作为 <code>Cookie</code> 的适用对象（若不指定则默认为文档所在的文件目录）</td>
+</tr>
+<tr>
+<td><code>domain=域名</code></td>
+<td>作为 <code>Cookie</code>适用对象的域名（若不指定则默认为创建 Cookie 的服务器的域名）</td>
+</tr>
+<tr>
+<td><code>Secure</code></td>
+<td>仅在 <code>HTTPS</code> 安全通信时才会发送 <code>Cookie</code></td>
+</tr>
+<tr>
+<td><code>HttpOnly</code></td>
+<td>加以限制，使 <code>Cookie</code> 不能被 <code>JavaScript</code> 脚本访问</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Session 和 Cookie 区别</strong></p>
+<blockquote>
+<p><code>Session</code> 是服务器用来跟踪用户的一种手段，每个 <code>Session</code> 都有一个唯一标识：<code>Session ID</code>。当服务器创建了一个 <code>Session</code> 时，给客户端发送的响应报文就包含了 <code>Set-Cookie</code> 字段，其中有一个名为 sid 的键值对，这个键值对就是 <code>Session ID</code>。客户端收到后就把 <code>Cookie</code> 保存在浏览器中，并且之后发送的请求报文都包含 <code>Session ID</code>。<code>HTTP</code> 就是 <code>Session</code> 和 <code>Cookie</code> 这两种方式一起合作来实现跟踪用户状态的，而 <code>Session</code> 用于服务器端，<code>Cookie</code> 用于客户端。</p>
+</blockquote>
+<p><strong>浏览器禁用 Cookie 的情况</strong></p>
+<ul>
+<li>会使用 <code>URL</code> 重写技术，在 <code>URL</code> 后面加上 <code>sid=xxx</code> </li>
+</ul>
+<p><strong>使用 Cookie 实现用户名和密码的自动填写</strong></p>
+<ul>
+<li>网站脚本会自动从 <code>Cookie</code> 中读取用户名和密码，从而实现自动填写。</li>
+</ul>
+<h2 id="5-2-缓存"><a href="#5-2-缓存" class="headerlink" title="5.2 缓存"></a>5.2 缓存</h2><ul>
+<li>有两种缓存方法：让代理服务器进行缓存和让客户端浏览器进行缓存。</li>
+</ul>
+<p><strong><code>Cache-Control</code> 用于控制缓存的行为</strong></p>
+<ul>
+<li><code>Cache-Control: no-cache</code>有两种含义，如果是客户端向缓存服务器发送的请求报文中含有该指令，表示客户端不想要缓存的资源；如果是源服务器向缓存服务器发送的响应报文中含有该指令，表示缓存服务器不能对资源进行缓存。</li>
+<li><code>Expires</code>字段可以用于告知缓存服务器该资源什么时候会过期。当首部字段 <code>Cache-Control</code> 有指定 <code>max-age</code> 指令时，比起首部字段 Expires，会优先处理 <code>max-age</code> 指令。</li>
+</ul>
+<h2 id="5-3-持久连接"><a href="#5-3-持久连接" class="headerlink" title="5.3 持久连接"></a>5.3 持久连接</h2><blockquote>
+<p>当浏览器访问一个包含多张图片的 <code>HTML</code> 页面时，除了请求访问 <code>HTML</code> 页面资源，还会请求图片资源，如果每进行一次 <code>HTTP</code> 通信就要断开一次 <code>TCP</code> 连接，连接建立和断开的开销会很大。<strong>持久连接</strong> 只需要进行一次 <code>TCP</code> 连接就能进行多次 <code>HTTP</code>通信。<code>HTTP/1.1</code>开始，所有的连接默认都是持久连接</p>
+</blockquote>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/c73a0b78-5f46-4d2d-a009-dab2a999b5d8.jpg?raw=true" alt=""></p>
+<ul>
+<li>持久连接需要使用 <code>Connection</code> 首部字段进行管理。<code>HTTP/1.1</code> 开始<code>HTTP</code> 默认是持久化连接的，如果要断开 <code>TCP</code> 连接，需要由客户端或者服务器端提出断开，使用 <code>Connection: close</code> ；而在<code>HTTP/1.1</code>之前默认是非持久化连接的，如果要维持持续连接，需要使用 <code>Keep-Alive</code>。</li>
+<li>管线化方式可以同时发送多个请求和响应，而不需要发送一个请求然后等待响应之后再发下一个请求。</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/6943e2af-5a70-4004-8bee-b33d60f39da3.jpg?raw=true" alt=""></p>
+<h2 id="5-4-编码"><a href="#5-4-编码" class="headerlink" title="5.4 编码"></a>5.4 编码</h2><p>编码（Encoding）主要是为了对实体进行压缩。常用的编码有：gzip、compress、deflate、identity，其中 identity 表示不执行压缩的编码格式。</p>
+<h2 id="5-5-分块传输"><a href="#5-5-分块传输" class="headerlink" title="5.5 分块传输"></a>5.5 分块传输</h2><blockquote>
+<p>分块传输（<code>Chunked Transfer Coding</code>）可以把数据分割成多块，让浏览器逐步显示页面。</p>
+</blockquote>
+<h2 id="5-6-多部分对象集合"><a href="#5-6-多部分对象集合" class="headerlink" title="5.6 多部分对象集合"></a>5.6 多部分对象集合</h2><ul>
+<li>一份报文主体内可含有多类型的实体同时发送，每个部分之间用 boundary 字段定义的分隔符进行分隔；每个部分都可以有首部字段。</li>
+</ul>
+<p>例如，上传多个表单时可以使用如下方式：</p>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/decb0936-e83c-4a55-840a-fe8aa101ac61.png?raw=true" alt=""></p>
+<h2 id="5-7-范围请求"><a href="#5-7-范围请求" class="headerlink" title="5.7 范围请求"></a>5.7 范围请求</h2><ul>
+<li>如果网络出现中断，服务器只发送了一部分数据，范围请求使得客户端能够只请求未发送的那部分数据，从而避免服务器端重新发送所有数据。</li>
+<li>在请求报文首部中添加 <code>Range</code>字段，然后指定请求的范围，例如  <code>Range : bytes = 5001-10000</code>。请求成功的话服务器发送 <code>206 Partial Content</code> 状态。</li>
+</ul>
+<h2 id="5-8-内容协商"><a href="#5-8-内容协商" class="headerlink" title="5.8 内容协商"></a>5.8 内容协商</h2><ul>
+<li>通过内容协商返回最合适的内容，例如根据浏览器的默认语言选择返回中文界面还是英文界面。</li>
+<li>涉及以下首部字段：<code>Accept</code>、<code>Accept-Charset</code>、<code>Accept-Encoding</code>、<code>Accept-Language</code>、<code>Content-Language</code></li>
+</ul>
+<h2 id="5-9-虚拟主机"><a href="#5-9-虚拟主机" class="headerlink" title="5.9 虚拟主机"></a>5.9 虚拟主机</h2><ul>
+<li>使用虚拟主机技术，使得一台服务器拥有多个域名，并且在逻辑上可以看成多个服务器。</li>
+</ul>
+<h2 id="5-10-通信数据转发"><a href="#5-10-通信数据转发" class="headerlink" title="5.10 通信数据转发"></a>5.10 通信数据转发</h2><p><strong>代理</strong></p>
+<ul>
+<li>代理服务器接受客户端的请求，并且转发给其它服务器。代理服务器一般是透明的，不会改变 URL。</li>
+<li>使用代理的主要目的是：缓存、网络访问控制以及记录访问日志。</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/c07035c3-a9ba-4508-8e3c-d8ae4c6ee9ee.jpg?raw=true" alt=""></p>
+<p><strong>网关</strong></p>
+<p>与代理服务器不同的是，网关服务器会将 HTTP 转化为其它协议进行通信，从而其它非 HTTP 服务器的服务。</p>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/81375888-6be1-476f-9521-42eea3e3154f.jpg?raw=true" alt=""></p>
+<p><strong>隧道</strong></p>
+<p>使用 SSL 等加密手段，为客户端和服务器之间建立一条安全的通信线路。</p>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/64b95403-d976-421a-8b45-bac89c0b5185.jpg?raw=true" alt=""></p>
+<h1 id="六、HTTPs"><a href="#六、HTTPs" class="headerlink" title="六、HTTPs"></a>六、HTTPs</h1><p><strong>HTTP 有以下安全性问题</strong></p>
+<ul>
+<li>通信使用明文，内容可能会被窃听；</li>
+<li>不验证通信方的身份，因此有可能遭遇伪装；</li>
+<li>无法证明报文的完整性，所以有可能已遭篡改。</li>
+</ul>
+<blockquote>
+<p><code>HTTPs</code> 并不是新协议，而是 <code>HTTP</code> 先和 <code>SSL</code>（Secure Socket Layer）通信，再由 <code>SSL</code> 和 <code>TCP</code> 通信。通过使用 <code>SSL</code>，<code>HTTPs</code> 提供了加密、认证和完整性保护。</p>
+</blockquote>
+<h2 id="6-1-加密"><a href="#6-1-加密" class="headerlink" title="6.1 加密"></a>6.1 加密</h2><blockquote>
+<p>有两种加密方式：对称密钥加密和公开密钥加密。对称密钥加密的加密和解密使用同一密钥，而公开密钥加密使用一对密钥用于加密和解密，分别为公开密钥和私有密钥。公开密钥所有人都可以获得，通信发送方获得接收方的公开密钥之后，就可以使用公开密钥进行加密，接收方收到通信内容后使用私有密钥解密。</p>
+</blockquote>
+<ul>
+<li>对称密钥加密的缺点：无法安全传输密钥；公开密钥加密的缺点：相对来说更耗时</li>
+<li><code>HTTPs</code> 采用 <strong>混合的加密机制</strong>，使用公开密钥加密用于传输对称密钥，之后使用对称密钥加密进行通信。（下图中，共享密钥即对称密钥）</li>
+</ul>
+<p><img src="https://github.com/CyC2018/InterviewNotes/blob/master/pics/110b1a9b-87cd-45c3-a21d-824623715b33.jpg?raw=true" alt=""></p>
+<h2 id="6-2-认证"><a href="#6-2-认证" class="headerlink" title="6.2 认证"></a>6.2 认证</h2><ul>
+<li>通过使用 <strong>证书</strong> 来对通信方进行认证。证书中有公开密钥数据，如果可以验证公开密钥的确属于通信方的，那么就可以确定通信方是可靠的。</li>
+<li>数字证书认证机构（<code>CA</code>，Certificate<br>Authority）颁发的公开密钥证书，可以通过 CA 对其进行验证。</li>
+<li>进行 <code>HTTPs</code> 通信时，服务器会把证书发送给客户端，客户端取得其中的公开密钥之后，就可以开始加密过程。</li>
+<li>使用 <code>OpenSSL</code> 这套开源程序，每个人都可以构建一套属于自己的认证机构，从而自己给自己颁发服务器证书。浏览器在访问该服务器时，会显示“无法确认连接安全性”或“该网站的安全证书存在问题”等警告消息。</li>
+<li>客户端证书需要用户自行安装，只有在业务需要非常高安全性时才使用客户端证书，例如网上银行。</li>
+</ul>
+<h2 id="6-3-完整性"><a href="#6-3-完整性" class="headerlink" title="6.3 完整性"></a>6.3 完整性</h2><ul>
+<li><code>SSL</code> 提供摘要功能来验证完整性。</li>
+</ul>
+<h1 id="七、HTTP-1-0-与-HTTP-1-1-的区别"><a href="#七、HTTP-1-0-与-HTTP-1-1-的区别" class="headerlink" title="七、HTTP/1.0 与 HTTP/1.1 的区别"></a>七、HTTP/1.0 与 HTTP/1.1 的区别</h1><ul>
+<li><code>HTTP/1.1</code> 默认是长连接；</li>
+<li><code>HTTP/1.1</code> 提供了范围请求功能；</li>
+<li><code>HTTP/1.1</code> 提供了虚拟主机的功能；</li>
+<li><code>HTTP/1.1</code> 多了一些缓存处理字段；</li>
+<li><code>HTTP/1.1</code> 多了一些状态码；</li>
+</ul>
+
+    
+  </div>
+</article>
+
+<!-- 使用Gitmemt作为评论系统 -->
+<div id="gitment"></div>
+<!-- 主页不要加载gitment -->
+
+<script>
+var gitment = new Gitment({
+  owner: 'poetries',
+  repo: 'poetries.github.io',
+  oauth: {
+    client_id: '1e8dd8b1f1cc682a0e96',
+    client_secret: 'e2e4411114035de33408c87ee77453e034a3da04',
+  },
+})
+gitment.render('gitment')
+</script>
+ 
+
+
+
+<button class="assist-btn2 circle" id="assist_btn2" title="点亮屏幕" style="left: 27px; top: 152px;">
+         <i class="iconfont" style="display:inline-block;color:red;width:20px;height:20px;">&#xe61d;</i>
+    </button>
+<button class="assist-btn1 circle" id="assist_btn1" title="关闭屏幕亮度" style="left: 27px; top: 152px;">
+         <i class="iconfont toc-title" style="display:inline-block;color:red;width:20px;height:20px;">&#xe61d;</i>
+    </button>
+	
+
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>	
+<script type="text/javascript">
+
+
+    // white theme
+    var body = {color: "#555", background: "#000"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#222"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        //$("#assist_btn1").hide(1500);
+    }
+
+    $(function () {
+		$("#assist_btn2").css("display","none");
+        $("#assist_btn1").click(function() {
+            switch_theme();
+			$("div#toc.toc-article").css({
+				"background":"#eaeaea",
+				"opacity":1
+			});
+			$(".toc-article ol").show();
+			$("#toc.toc-article .toc-title").css("color","#a98602");
+			$("#assist_btn1").css("display","none");
+			$("#assist_btn2").css("display","block");
+        });
+		$("#assist_btn2").click(function() {
+			$("#assist_btn2").css("display","none");
+			$("#assist_btn1").css("display","block");
+			 $("body").css("background","url(http://www.miaov.com/static/ie/images/news/bg.png)")
+            $(".header, .footer").css("background","url(http://www.miaov.com/static/ie/images/news/bg.png)")
+			$(".toc-article ol").toggle(1000);
+        });
+    });
+
+	
+	//背景随机
+
+	var Y, O, E, L, B, C, T, z, N, S, A, I;
+	!function() {
+	var e = function() {
+		for (O.clearRect(0, 0, L, B), T = [{
+			x: 0,
+			y: .7 * B + C
+		}, {
+			x: 0,
+			y: .7 * B - C
+		}]; T[1].x < L + C;) t(T[0], T[1])
+	}, t = function(e, t) {
+			O.beginPath(), O.moveTo(e.x, e.y), O.lineTo(t.x, t.y);
+			var n = t.x + (2 * I() - .25) * C,
+				r = a(t.y);
+			O.lineTo(n, r), O.closePath(), N -= S / -50, O.fillStyle = "#" + (127 * A(N) + 128 << 16 | 127 * A(N + S / 3) + 128 << 8 | 127 * A(N + S / 3 * 2) + 128).toString(16), O.fill(), T[0] = T[1], T[1] = {
+				x: n,
+				y: r
+			}
+		}, a = function n(e) {
+			var t = e + (2 * I() - 1.1) * C;
+			return t > B || t < 0 ? n(e) : t
+		};
+	Y = document.getElementById("evanyou"), O = Y.getContext("2d"), E = window.devicePixelRatio || 1, L = window.innerWidth, B = window.innerHeight, C = 90, z = Math, N = 0, S = 2 * z.PI, A = z.cos, I = z.random, Y.width = L * E, Y.height = B * E, O.scale(E, E), O.globalAlpha = .6, document.onclick = e, document.ontouchstart = e, e()
+	}()
+
+          
+
+
+
+</script>
+
+</div>
+
+
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持poetries</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/weixin.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/zhifubao.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
